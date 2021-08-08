@@ -5,1080 +5,120 @@
 }
 
 body {
-  background-image: url("https://images.pexels.com/photos/2098428/pexels-photo-2098428.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+  background-image: url("https://d3b4yo2b5lbfy.cloudfront.net/wp-content/uploads/2020/03/ab692Expansion-3.jpg");
   background-size: cover;
+  background-position: center;
   display: flex;
   flex-direction: column;
   height: 100vh;
   overflow-y: hidden;
   overflow-x: hidden;
-  width: 50%;
+  width: 100%;
 }
 
-button {
-  background-color: rgb(36, 36, 36);
-  color: white;
-  cursor: pointer;
-}
-
-a {
-  color: white;
-} 
-
-
-.intro {
-  transition: 1s;
-  position: absolute;
-  left: 50%;
-  margin-left: -8rem;
-  width: 16rem;
-  color: white;
-}
-  .intro h1 {
-    text-align: center;
-    margin: auto;
-    width: 15rem;
-  }
-  .intro h4 {
-    text-align: center;
-  }
-
-.nav {
-  position: absolute;
-  text-align: center;
-  width: 8em;
-  left: 50%;
-  margin-left: -4rem;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  transition: 1s;
-  height: 28.5rem;
-  top: 55%;
-  margin-top: -14.25rem;
-  z-index: 2;
-}
-  #navInner {
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-  }
-  .stick {
-    height: 2rem;
-    width: 1px;
-    background-color: #ffffff00;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    margin: 0.3rem auto;
-    transition: 0.1s;
-  }
-  .nav a {
-    transition: 0.66s;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  #nav .links:hover {
-    color: rgb(255, 195, 83);
-  }
-  .links {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  #logoBackButton {
-    width: 2.5rem;
-    height: 2.5rem;
-    position: absolute;
-    color: white;
-    display: flex;
-    right: 3%;
-    /* top: 1.5%; */
-    top: -10%;
-    z-index: 7;
-    transition: 1s;
-    cursor: pointer;
-  }
-    #logoBackButton p {
-      margin: auto;
-      font-size: 1.7rem;
-      font-weight: bold;
-      text-decoration: underline;
-    }
-
-.boxes {
-  transition: 1.5s;
-}
-.bigBox {
-  border: 1px solid white;
-  position: absolute;
-  height: 95vh;
-  width: 92vw;
-  left: 5%;
-  top: 2.5vh;
-  border-left: 0px;
-  pointer-events: none;
-  opacity: 0;
-  background-color: rgba(0, 0, 0, 0.459);
-}
-
-/* about */
-#aboutWrapper {
-  opacity: 0;
-  pointer-events: none;
-  color: white;
-  width: 15rem;
-  display: flex;
-  flex-direction: column;
-  transition: 1s;
-  height: 30rem;
+.wrapper {
   margin: auto;
-    position: absolute;
-    top: 0; left: 0; bottom: 10%; right: 0;
 }
-  .aboutInner {
-    display: flex;
-    justify-content: space-evenly;
-  }
 
-.selfie {
-  width: 10rem;
-  height: 10rem;
-  background-image: url("https://cdn.discordapp.com/attachments/736393082831896590/861441120068435968/unknown.png");
-  border-radius: 50%;
-  background-position: center;
-  background-size: cover;
+canvas {
+  margin: auto;
+  background-color: black;
+  cursor: crosshair;
+}
+
+#bossHP {
+  width: 20rem;
+  height: 1.5rem;
+  border: 1px solid white;
   margin: auto;
   margin-bottom: 1rem;
-}
-
-#aboutWrapper a {
-  text-decoration: underline;
-  color: rgb(200, 200, 200);
-  font-size: 0.8rem;
-}
-
-#aboutWrapper a:hover {
-  color: rgb(255, 195, 83);
-}
-
-.personality p:first-child {
-  margin-bottom: 0.5rem;
-}
-
-/* blog */
-#blogWrapper {
-  color: white;
-  opacity: 0;
-  pointer-events: none;
-  transition: 1s;
-  position: absolute;
-  width: 86vw;
-  height: 90vh;
-  left: 50%;
-  margin-left: -41vw;
-  margin-top: 3rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-} 
-  .blogSelection {
-    height: 3rem;
-    display: flex;
-    justify-items: center;
-  }
-    .blogSelection button {
-      width: 6rem;
-      height: 2rem;
-      margin: auto;
-      cursor: pointer;
-    }
-  .blogBody {
-    margin-top: 0.5rem;
-    border: 1px solid rgb(95, 94, 94);
-    }
-    .blogBody h1 {
-      font-size: 1.5rem;
-      text-align: center;
-      margin-top: 0.5rem;
-    }
-    .blogBody p {
-      padding: 1rem;
-      padding-top: 0;
-    }
-    .blogDate {
-      text-align: center;
-      margin-bottom: 0rem;
-      padding: 0;
-    }
-    .blogBodyWrapper {
-      overflow-y: scroll;
-      height: 90%;
-    }
-
-/* contact */
-#contactWrapper {
-  height: 95vh;
-  width: 18rem;
-  margin: auto;
-  margin-top: 1.1rem;
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  margin-left: -8.5rem;
-  left: 50%;
-}
-  .contactWrapperInner {
-    width: 10rem;
-    height: 25rem;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-  }
-  .iconWrapper {
-    color: white;
-    margin: auto;
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50%;
-    position: absolute;
-    display: flex;
-    border: 3px solid rgb(255, 195, 83);
-    border-style: inset;
-    animation: iconRotate, sway;
-    animation-duration: 1.5s, 2s;
-    animation-iteration-count: infinite;
-    animation-fill-mode: forwards;
-    animation-timing-function: linear;
-    transition: 0.33s;
-    top: 20%;
-  }
-    .iconWrapper:nth-child(2) {
-      animation-delay: 0s, .5s;
-      top: 35%;
-    }
-    .iconWrapper:nth-child(3) {
-      animation-delay: 0s, 1s;
-      top: 50%;
-    }
-    .iconWrapper:nth-child(4) {
-      animation-delay: 0s, 1.5s;
-      top: 65%;
-    }
-            @keyframes sway {
-              0% {
-                margin-left: -3rem;
-              } 50% {
-                margin-left: 8rem;
-              } 100% {
-                margin-left: -3rem;
-              }
-
-            }
-    .iconWrapper i {
-      margin: auto;
-      font-size: 2.5rem;
-      animation: iconRotateForward;
-      animation-duration: 1.5s;
-      animation-iteration-count: infinite;
-      animation-fill-mode: forwards;
-      animation-timing-function: linear;
-    }
-    .contactDivs {
-      border-radius: 50%;
-      width: 7.5rem;
-      height: 7.5rem;
-      margin: auto;
-      display: flex;
-      text-decoration: none;
-      position: absolute;
-      left: 50%;
-      margin-left: -3.6rem;
-      animation: iconRotateForward;
-      animation-duration: 1.5s;
-      animation-iteration-count: infinite;
-      animation-fill-mode: forwards;
-      animation-timing-function: linear;
-      opacity: 0;
-      pointer-events: none;
-    }
-    .iconWrapper a {
-      margin: auto;
-    }
-    .iconWrapper a span:first-child {
-      text-decoration: underline;
-    }
-
-  @keyframes iconRotate {
-    0% {
-      transform: rotate(0deg);
-    } 50% {
-      transform: rotate(180deg);
-    } 100% {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes iconRotateForward {
-    0% {
-      transform: rotate(0deg);
-    } 50% {
-      transform: rotate(-180deg);
-    } 100% {
-      transform: rotate(-360deg);
-    }
-  }
-
-  .contactButtons {
-    width: 15rem;
-    height: 2.5rem;
-    margin: 0 auto;
-    display: flex;
-  }
-    .contactButtons button {
-      width: 4rem;
-      height: 1.5rem;
-      margin: auto;
-    }
-
-/* AHHHHHHHHHHHHHH */
-
-#portfolioWrapper {
-  z-index: 6;
-  opacity: 0;
-  pointer-events: none;
-  transition: 1s;
-
-  flex-direction: column;
-  color: white;
-  margin: auto;
-  margin-top: 1.4rem;
-  margin-right: 1rem;
-  width: 88vw;
-  height: 93.95vh;
-  overflow-y: scroll;
-
-  position: absolute;
-  left: 50%;
-  margin-left: -41vw;
-}
-
-/* website portfolio */
-
-  .websitePortfolio {
-    margin: 1rem auto;
-    margin-top: 2rem;
-    display: grid;
-    grid-template-columns: 9rem 9rem;
-    row-gap: 10px;
-    column-gap: 10px;
-    width: 19rem;
-  }
-
-.showcaseWrapper {
-  grid-area: showcase;
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  margin-top: 0;
-  z-index: 3;
-  border-bottom: 1px solid white;
-  padding-bottom: 1rem;
-}
-
-#gameSelection {
-  margin: auto;
-  margin-top: 0.77rem;
-  display: flex;
-  flex-direction: column;
-}
-#gameSelection h2 {
-  color: white;
-  font-size: 1.2rem;
-  margin: auto;
-}
-.gameSelectionButtons{
-  display: flex;
-  margin: 0.5rem auto auto auto;
-}
-
-.gameButtons {
-  background-color: rgb(36, 36, 36);
-  border-radius: 5px;
-  width: 2.9rem;
-  height: 3rem;
-  margin: auto;
-  margin-left: 0.33rem;
-  margin-right: 0.33rem;
-  cursor: pointer;
-}
-
-.gameButtons i {
-  font-size: 2rem;
-  color: white;
-  margin: auto;
-}
-
-.gameButtons i:nth-child(1) {
-  margin-left: -0.13rem;
-}
-
-/* showcaseGame */
-.showcaseGame {
-  width: 20rem;
-  height: 20rem;
-  margin: auto;
-}
-
-/* seasaw */
-#seasawBody {
-  color: white;
-  display: none;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-}
-
-#ssUpper {
-  height: 50%;
-  width: 100%;
-}
-
-.ssScore {
-  display: flex;
-  margin: auto;
-  justify-content: space-between;
-  padding-left: 3rem;
-  padding-right: 3rem;
-}
-
-#ssLower {
-  height: 50%;
-  width: 100%;
-  display: grid;
-  grid-template-areas: "top top"
-  "bottom bottom";
-}
-
-.leftButtons, .rightButtons {
-  grid-area: top top;
-  margin: auto;
-}
-
-.byButtons {
-  display: flex;
-  flex-direction: column;
-  margin: -1rem auto auto auto;
-  grid-area: bottom;
-}
-
-.byButtons p {
-  font-size: 1.5rem;
-  margin: auto;
-}
-
-#ssLower button {
-  width: 4rem;
-}
-
-.ssObject {
-  margin-top: 5.9rem;
-}
-
-#ss {
-  height: 1rem;
-  width: 15rem;
-  background-color: white;
-  border: 1px solid black;
-  margin: auto;
-}
-
-#ssStand {
-  width: 3rem;
-  height: 3rem;
-  border: 1px solid black;
-  background-color: white;
-  border-radius: 50%;
-  margin: auto;
-}
-
-#seasawBody {
-  display: none;
-  width: 100%;
-  height: 100%;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.199);
-}
-/* aim train game */
-#aimTrainBody {
-  width: 100%;
-  height: 100%;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.199);
-  display: none;
-  margin: auto;
-}
-  #aimIntro {
-    display: flex;
-    flex-direction: column;
-  }
-    #aimIntro #aimP {
-      margin: 5.5rem 3rem auto 3rem;
-      text-align: center;
-    }
-  #aimButtons {
-    display: flex;
-    z-index: 6;
-    width: 10rem;
-    margin: auto;
-    margin-top: 10rem;
-  }
-    #aimButtons button {
-      width: 4rem;
-      height: 4rem;
-      display: flex;
-      flex-direction: column;
-      margin: auto;
-      margin-top: -8rem;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 6;
-    }
-      #aimButtons button div {
-        margin: auto;
-      }
-  #aimBody {
-    display: none;
-    width: 33rem;
-  }
-      #trackingScreen {
-        width: 20rem;
-        height: 17.5rem;
-        margin-top: 2.5rem;
-        position: absolute;
-        display: none;
-        cursor: crosshair;
-      }
-      #trackingBall {
-        margin: auto;
-        border-radius: 50%;
-        width: 2rem;
-        height: 2rem;
-        border: 3px solid white;
-        background-color: red;
-        display: none;
-        transition: 1.5s;
-      }
-        #trackingBall:hover {
-          background-color: greenyellow;
-        }
-      #aimRotator {
-        margin: auto;
-        width: 3rem;
-        height: 14rem;
-        display: flex;
-        animation: rotateBall;
-        animation-fill-mode: forwards;
-        animation-duration: 3s;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-      }
-      @keyframes rotateBall {
-        0% {
-          transform: rotate(0deg);
-        } 100% {
-          transform: rotate(360deg);
-        }
-      }
-  #aimInstruction {
-    position: absolute;
-    top: 18.75rem;
-    font-size: 0.77rem;
-    width: 15rem;
-    left: 50%;
-    margin-left: -7.5rem;
-  }
-  #aimInfoUi {
-    position: absolute;
-    width: 5rem;
-    left: 50%;
-    margin-left: -2.5rem;
-    height: 2.5rem;
-  }
-  #aimMenu {
-    margin-top: 0rem;
-    height: 3rem;
-    margin-left: 0rem;
-    display: flex;
-    flex-direction: column;
-  }
-    #aimMenu button {
-      margin-left: 0.2rem;
-      margin-top: 0.3rem;
-      border-radius: 0%;
-    }
-      #aimMenu button:last-child {
-        width: 5rem;
-        z-index: 10;
-      }
-      #aimStart {
-        position: absolute;
-        top: 10rem;
-        left: 50%;
-        width: 3rem;
-        margin-left: -1.5rem;
-        height: 1.5rem;
-        z-index: 10;
-        cursor: pointer;
-      }
-  #aimCountdown {
-    position: absolute;
-    top: 9rem;
-    width: 5rem;
-    margin-left: -2.5rem;
-    left: 58%;
-    font-size: 3rem;
-    display: none;
-  }
-#flickingScreen {
-  width: 20rem;
-  height: 17.5rem;
-  margin-top: 2.5rem;
-  position: absolute;
-  cursor: crosshair;
-  display: none;
-}
-  #gridWrap {
-    height: 85%;
-    width: 85%;
-    display: none;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    margin: auto;
-    margin-top: 0.79rem;
-  }
-  .gridTarget {
-    border: 1px solid rgb(255, 255, 255);
-    background-color: rgb(0, 209, 209);
-    opacity: 0;
-    width: 2.5rem;
-    height: 2.5rem;
-    margin: auto;
-    padding: auto;
-    border-radius: 50%;
-  }
-
-/* pixel art editor */
-#pixelBody {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.199);
-  margin: auto;
-}
-
-.pixelLeftWrap {
-  height: 100%;
-  width: 70%;
-  margin-left: 0.1rem;
-}
-
-#gridChoice {
-  color: white;
-  display: flex;
-  margin: 0;
-  margin-top: 0.5rem;
-}
-  .gridChoiceInnerWrap {
-    display: flex;
-    width: 10rem;
-  }
-  .gridChoiceInner {
-    padding: 0.33rem;
-    margin-right: 0.33rem;
-  }
-
-#pixelUiTop {
-  display: flex;
-  padding: 0.65rem;
-}
-  #pixelUiTop i {
-    font-size: 1.33rem;
-  }
-  .backForwardsWrap {
-    margin-left: 0rem;
-  }
-  #pixelReset, .pixelReset {
-    margin-right: 0;
-  }
-  #pixelResetConfirm {
-    margin-left: 5rem;
-    display: none;
-  }
-  #pixelResetConfirmNo {
-    width: 1.7rem;
-    margin-left: 0.35rem;
-  }
-  #pixelResetConfirmYes {
-    width: 1.7rem;
-  }
-  #forwards {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-  #canvasSize {
-    height: 1.6rem;
-    margin-left: 2rem;
-    margin-right: 2rem;
-  }
-    #canvasSize #xByX {
-      height: 100%;
-      width: 3.5rem;
-      font-size: 1rem;
-    }
-
-.pixelRightWrap {
-  height: 100%;
-  width: 30%;
-  padding-bottom: 0.15rem;
-}
-
-.colorBrightness {
-  border: 1px solid black;
-  width:  90%;
-  height: 2rem;
-  display: flex;
-  margin: auto;
-}
-
-.brightnessClass {
-  margin: auto;
-  border: 1px solid black;
-  width: 45%;
-  height: 90%;
-  cursor: pointer;
-}
-
-#darkerColor {
-  background-color: rgb(43, 43, 43);
-}
-
-#brighterColor {
-  background: rgb(117, 117, 117);
-  color: rgb(0, 192, 0)
-}
-
-#animateButton {
-  margin-left: 0.45rem;
-  margin-top: 0.45rem;
-  height: 2rem;
-  width: 5rem;
-}
-
-.pixelArea {
-  border: 1px solid rgba(0, 0, 0, 0.712);
-  height: 70%;
-  width: 100%;
-  margin-left: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; */
-  cursor: crosshair;
-}
-
-.pixel {
-  border: 1px solid black;
-  width: 1.73rem;
-  height: 1.73rem;
-  /* width: 1.26rem;
-  height: 1.26rem; */
-  margin: auto;
-  padding: auto;
-  background-color: white;
-}
-
-.pixelUiRight {
-  margin-top: 0;
-  width: 100%;
-  height: 85%;
-  display: flex;
-  flex-direction: column;
-}
-
-.colorChanger {
-  font-size: 2rem;
-  color: white;
-  cursor: pointer;
-}
-
-.colorChanger:hover {
-  color: rgb(65, 65, 65);
-}
-
-#colorLeft {
-  margin: 1.7rem auto auto auto;
-  margin-left: 0.7rem;
-}
-
-#colorRight {
-  margin: 1.7rem auto auto auto;
-  margin-right: 0.7rem;
-}
-
-#currentVisual {
-  display: flex;
-}
-
-#currentColor {
-  width: 2.5rem;
-  height: 2.5rem;
   background-color: black;
-  border-radius: 50%;
-  border: 1px solid rgb(255, 255, 255);
-  margin: 1.5rem auto auto auto;
 }
 
-#colorSelection {
-  width: 90%;
-  height: 60%;
+#bossHPInner {
+  width: 100%;
+  height: 100%;
+  background-color: red;
+}
+
+#notePad {
+  position: absolute;
+  background-color: white;
+  height: 5rem;
+  overflow-y: scroll;
+}
+
+#playerUI {
+  width: 480px;
+  height: 100px;
+  margin: auto;
+  display: flex;
+}
+
+.playerUIWrapper {
+  display: flex;
+  margin: auto;
+}
+
+.playerSkill {
+  width: 4rem;
+  height: 4rem;
   margin: auto;
   margin-bottom: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background-color: rgba(214, 214, 214, 0.178);
+  margin-left: 0;
+  margin-right: 0;
 }
-
-.pixelColors {
-  border: 1px solid rgba(0, 0, 0, 0.178);
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  cursor: pointer;
-  margin: auto;
-}
-/* colors compressed */
-#black{background-color:rgb(0, 0, 0)}#white{background-color:rgb(255, 255, 255)}#blue{background-color:rgb(0, 0, 255)}#green{background-color:rgb(0, 128, 0)}#yellow{background-color:rgb(255, 255, 0)}#orange{background-color:rgb(255, 166, 0)}#red{background-color: rgb(255, 0, 0)}#purple{background-color:rgb(128, 0, 128)}
-
-    /* sites */
-.portfolioSite {
-  height: 11rem;
-  width: 9rem;
-  margin: auto;
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-}
-  .imgWrapper {
-    width: 100%;
-    height: 100%;
-  }
-  .portfolioImgOne{
-    height: 8.5rem;
-    width: 8.5rem;
-    background-image: url("https://cdn.discordapp.com/attachments/736393082831896590/858686592187891712/unknown.png");
+  #skill1 {
+    background-image: url("https://cdn.discordapp.com/attachments/736393082831896590/870423375594545152/auto1.png");
     background-size: contain;
-    margin: auto;
-    border-radius: 10%;
+    background-repeat: no-repeat;
   }
-    .portfolioImgTwo {
-      height: 8.5rem;
-      width: 8.5rem;
-      background-image: url("https://cdn.discordapp.com/attachments/736393082831896590/752330125332185198/unknown.png");
-      background-size: contain;
-      margin: auto;
-      border-radius: 10%;
+  #skill2 {
+    background-image: url("https://cdn.discordapp.com/attachments/736393082831896590/870423379465883688/skill2.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  #skill3 {
+    background-image: url("https://cdn.discordapp.com/attachments/736393082831896590/870423381273640990/skill3.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  #skill4 {
+    background-image: url("https://cdn.discordapp.com/attachments/736393082831896590/870423374524973096/skill4.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+    .cDBox {
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 1);
+      transition: 0.1s;
+      display: flex;
     }
-      .portfolioImgThree {
-        height: 8.5rem;
-        width: 8.5rem;
-        background-image: url("https://cdn.discordapp.com/attachments/736393082831896590/762050870506291220/unknown.png");
-        background-size: contain;
-        margin: auto;
-        border-radius: 10%;
-      }
-        .portfolioImgFour {
-          height: 8.5rem;
-          width: 8.5rem;
-          background-image: url("https://cdn.discordapp.com/attachments/736393082831896590/858688977925308416/unknown.png");
-          background-size: contain;
-          margin: auto;
-          border-radius: 10%;
-        }
-  .portfolioTitle {
-    margin: auto;
-    margin-top: -1.5rem;
-    text-align: center;
-  }
-  .portfolioTitle a:hover {
-    color: rgb(255, 195, 83);
-  }
+    .cDBoxNum {
+      position: absolute;
+      margin-top: -3.2rem;
+      margin-left: 0.7rem;
+      font-size: 2rem;
+      color: greenyellow;
+      text-shadow: 1px 1px black;
+      font-weight: bold;
+      width: 2rem;
+    }
 
-
-/* rpc */
-.rpcBody {
-  z-index: 0;
-  display: none;
-  width: 100%;
-  height: 100%;
-  color: white;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.199);
-}
-  #rpcInner {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .rpcButtons {
-    width: 15rem;
-    display: flex;
-    margin: auto;
-    cursor: pointer;
-  }
-
-  #rpcReset {
-    display: none;
-    width: 15rem;
-    margin: auto;
-    cursor: pointer;
-  }
-
-  #rpcResetButton {
-    margin: auto;
-    width: 3rem;
-    height: 3rem;
-    background-color: black;
-    color: white;
-  }
-
-  #rpcResetButton p {
-    margin-left: -0.1rem;
-  }
-
-  .rpcButtons button {
-    margin: auto;
-    width: 3rem;
-    height: 3rem;
-    background-color: black;
-  }
-
-  .rpcButtons button i {
-    font-size: 2rem;
-    margin-left: -0.3rem;
-    color: white;
-  }
-  .rpcButtons button i:first-child {
-    margin-left: -0.12rem;
-  }
-  .rpcButtons button i:last-child {
-    margin-left: -0.2rem;
-  }
-
-  #instructions {
-    margin: auto;
-  }
-
-.rpcGameBox {
-  margin-top: 0;
-  height: 60%;
-  width: 100%;
+#playerHealth {
+  width: 5.5rem;
+  height: 5.5rem;
+  border: 2px solid black;
+  background: rgb(2,0,36);
+  background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(255,0,0,1) 100%, rgba(255,0,0,1) 100%); 
+  border-radius: 50%;
   display: flex;
 }
-
-  .rpcGameBox i {
-    font-size: 4rem;
-    margin-top: 1rem;
-  }
-
-  #playerCharacter {
+  #playerHealthNumber {
     margin: auto;
-    margin-left: 1rem;
-    animation: player;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-fill-mode: forwards;
-    animation-timing-function: linear;
-    animation-play-state: paused;
-  }
-
-  #enemyCharacter {
-    margin: auto;
-    margin-right: 1rem;
-    animation: player2;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-fill-mode: forwards;
-    animation-timing-function: linear;
-    animation-play-state: paused;
-  }
-
-  /* scrollbar */
-
-  *::-webkit-scrollbar {
-    width: 12px;               /* width of the entire scrollbar */
-  }
-  
-  *::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0);        /* color of the tracking area */
-  }
-  
-  *::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0);    /* color of the scroll thumb */
-    border-radius: 20px;       /* roundness of the scroll thumb */
-    border: rgba(0, 0, 0, 0);  /* creates padding around scroll thumb */
-  }
-
-  * {
-    scrollbar-width: thin;          /* "auto" or "thin" */
-    scrollbar-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);   /* scroll thumb and track */
-  }
-
-  @keyframes player {
-    0% {
-      margin-left: 2%;
-    } 50% {
-      margin-left: 28%;
-    } 100% {
-      margin-left: 2%;
-    }
-  }
-  @keyframes player2 {
-    0% {
-      margin-right: 2%;
-    } 50% {
-      margin-right: 28%;
-    } 100% {
-      margin-right: 2%;
-    }
-  }
-
-
-  @media (min-width: 550px) {
-    #aboutWrapper {
-      margin-top: 10rem;
-    }
-    .bigBox {
-      width: 40rem;
-      left: 50%;
-      margin-left: -20rem;
-    }
-    #portfolioWrapper {
-      margin-right: 1rem;
-      width: 35rem;
-      left: 50%;
-      margin-left: -17rem;
-    }
-    #blogWrapper {
-      width: 35rem;
-      margin-left: -17rem;
-    } 
-  }
-
-  @media (min-width: 1200px) {
-    body {
-      background-image: url("https://images.pexels.com/photos/2098428/pexels-photo-2098428.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
-      background-size: cover;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow-y: hidden;
-      width: 50%;
-      background-position-y: -10rem;
-    }
+    width: 3rem;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
   }

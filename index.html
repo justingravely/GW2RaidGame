@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/27a12b435e.js" crossorigin="anonymous"></script>
+  <title>GW2RaidGame</title>
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <div id="bossHP">
+      <div id="bossHPInner"></div>
+    </div>
+
+    <canvas id="myCanvas" width="480" height="480" style="border:1px solid lightgrey;">
+      Your browser does not support the HTML5 canvas tag.
+    </canvas>
+
+    <div id="playerUI">
+      <div class="playerUIWrapper">
+        <div class="playerSkill" id="skill1">
+          <div class="cDBox"></div>
+          <p class="cDBoxNum"></p>
+        </div>
+        <div class="playerSkill" id="skill2">
+          <div class="cDBox"></div>
+          <p class="cDBoxNum"></p>
+        </div>
+        <div id="playerHealth">
+          <p id="playerHealthNumber">100%</p>
+        </div>
+        <div class="playerSkill" id="skill3">
+          <div class="cDBox"></div>
+          <p class="cDBoxNum"></p>
+        </div>
+        <div class="playerSkill" id="skill4">
+          <div class="cDBox"></div>
+          <p class="cDBoxNum"></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="notePad">
+    <ul>
+      <!-- <li>- start player out, lock in</li>
+      <li>- player looking at cursor</li>
+      <li>- melee weapon following</li> -->
+      <!-- <li>- change attack direction with arrow keys</li>
+      <li>- Make skillbar/skills</li> -->
+      <!-- <li>- Make 1 do dmg</li>
+      <li>- Make 1 cycle</li> -->
+      <!-- <li>- Make 1 reset if use 2 or other</li>
+      <li>- give 2 value and cooldown</li> -->
+      <!-- <li>- start game when enter with health ticker</li>  -->
+      <li>- add blue feet mechanic/green circle mechanic</li>
+      <li>- add dmg numbers</li>
+      <li>- add breakbar, make akesi cc skill</li>
+      <li>- make the blue circle move to different locations based on health % missing</li>
+      <li>- danger red orb boys</li>
+
+    </ul>
+  </div>
+
+  <script>
+    // ?????????????????????????? = cleanup optimization possible
+
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+
+    var bossRadius = 30;
+    var playerRadius = 15;
+    var x = 240;
+    var y = 240;
+    var dx = 2;
+    var dy = -2;
+    var playerX = (canvas.width - playerRadius) - 25;
+    var playerY = (canvas.height - playerRadius) - 20;
+    var arenaX = 240;
+    var arenaY = 240;
+    var rightPressed = false;
+    var leftPressed = false;
+    var upPressed = false;
+    var downPressed = false;
+    var wepUp = false;
+    var wepRight = false;
+    var wepDown = false;
+    var wepLeft = false;
+
+    var skill1 = document.getElementById("skill1");
+    var skill2 = document.getElementById("skill2");
+    var playerHealth = document.getElementById("playerHealth");
+    var playerHealthNumber = document.getElementById("playerHealthNumber");
+    var playerHealthVar = 100;
+    var skill3 = document.getElementById("skill3");
+    var skill4 = document.getElementById("skill4");
+    var gcd = false;
+
+    // boss stuff
+    var bossHealth = 100;
+    var playerDMG = 1;
+    var hpBar = document.getElementById("bossHPInner");
+    var arenaRadius = 235;
+
+    function playerBossCollision() {
+      var distX = Math.abs(x - (wepX + wepWidth / 2));
+      var distY = Math.abs(y - (wepY + wepHeight / 2));
+
+      if (distX > (wepWidth / 2 + bossRadius)) { return false; }
+      if (distX > (wepHeight / 2 + bossRadius)) { return false; }
+
+      // if (distX <= wepWidth) { return true; }
+      if (distY <= wepHeight) { return true; }
+
+      var eX = distX - wepWidth / 2;
+      var eY = distY - wepHeight / 2;
+      return (eX * eX + eY * eY <= bossRadius * bossRadius);
+    }
+
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
+
+    function keyDownHandler(e) {
+      if (e.key == "Right" || e.key == "d") {
+        rightPressed = true;
+      } if (e.key == "Left" || e.key == "a") {
+        leftPressed = true;
+      } if (e.key == "Up" || e.key == "w") {
+        upPressed = true;
+      } if (e.key == "Down" || e.key == "s") {
+        downPressed = true;
+      }
+
+      if (e.key == "ArrowUp") {
+        wepUp = true;
+        wepRight = false;
+        wepDown = false;
+        wepLeft = false;
+      } if (e.key == "ArrowRight") {
+        wepUp = false;
+        wepRight = true;
+        wepDown = false;
+        wepLeft = false;
+      } if (e.key == "ArrowDown") {
+        wepUp = false;
+        wepRight = false;
+        wepDown = true;
+        wepLeft = false;
+      } if (e.key == "ArrowLeft") {
+        wepUp = false;
+        wepRight = false;
+        wepDown = false;
+        wepLeft = true;
+      }
+
+      if (e.key == "1" && gcd == false) {
+        weaponFunc0();
+        autoChain(false);
+        gcdFunction(1);
+      }
+      if (e.key == "2" && skill2CD == false) {
+        weaponFunc0();
+        skill2Func();
+        gcdFunction(2);
+      }
+      if (e.key == "3" && skill3CD == false) {
+        skill3Func();
+        gcdFunction(3);
+      }
+      if (e.key == "4" && skill4CD == false) {
+        skill4Func();
+        gcdFunction(4);
+      }
+    }
+    function keyUpHandler(e) {
+      if (e.key == "Right" || e.key == "d") {
+        rightPressed = false;
+      } if (e.key == "Left" || e.key == "a") {
+        leftPressed = false;
+      } if (e.key == "Up" || e.key == "w") {
+        upPressed = false;
+      } if (e.key == "Down" || e.key == "s") {
+        downPressed = false;
+      }
+
+      if (e.key == "1" || e.key == "2") {
+        weaponFunc1();
+      }
+    }
+
+
+    // // skillbar skillbar skillbar skillbar skillbar
+    // cd boxes
+    var cDBox = document.getElementsByClassName("cDBox");
+    var cDBoxNum = document.getElementsByClassName("cDBoxNum");
+    // This arr is kinda pointless, its spaghetti code time ??????????????????????????
+    var cDBoxArr = [];
+    for (let i = 0; i < cDBox.length; i++) {
+      cDBox[i].style.opacity = "0";
+      cDBoxArr.push([cDBox[i], cDBoxNum[i]]);
+    }
+    // gcd countdown animation
+    function gcdAnimation(num, off) {
+      if (off == false) {
+        for (let i = 0; i < cDBoxArr.length; i++) {
+          cDBoxArr[num][0].style.opacity = "0.5";
+        }
+      } if (off == true) {
+        for (let i = 0; i < cDBoxArr.length; i++) {
+          cDBoxArr[num][0].style.opacity = "0";
+        }
+      }
+    }
+    // gcd Function
+    function gcdFunction(e) {
+      gcd = true;
+      setTimeout(function () { gcd = false; }, 500);
+    }
+    // Skill function handler
+    function skillTimer(e) {
+      let newNum = 0;
+      if (e == 2) {
+        newNum = 3.0;
+      } else if (e == 3) {
+        newNum = 8.0;
+      } else if (e == 4) {
+        newNum = 6.0;
+      }
+      cDBoxNum[e - 1].innerHTML = newNum.toString();
+      let skillInt = setInterval(() => {
+        newNum -= .1;
+        cDBoxNum[e - 1].innerHTML = newNum.toFixed(1).toString();
+        if (newNum <= 0.0) {
+          clearInterval(skillInt);
+          cDBoxNum[e - 1].innerHTML = "";
+        }
+      }, 93)
+    }
+    // skill1 SKILLS COULD BE OPTIMIZED INTO ONE FUNCTION ??????????????????????????
+    var autoPos = 0;
+    function autoChain(bool) {
+      gcdAnimation(0, false);
+      setTimeout(function () { gcdAnimation(0, true); }, 500);
+      if (bool) {
+        skill1.style.backgroundImage = "url('https://cdn.discordapp.com/attachments/736393082831896590/870423375594545152/auto1.png')";
+        return;
+      }
+      if (autoPos == 0) {
+        if (playerBossCollision()) {
+          skill1.style.backgroundImage = "url('https://cdn.discordapp.com/attachments/736393082831896590/870423376613756948/auto2.png')";
+          bossHealth -= 1;
+          autoPos = 1;
+        }
+      } else if (autoPos == 1) {
+        if (playerBossCollision()) {
+          skill1.style.backgroundImage = "url('https://cdn.discordapp.com/attachments/736393082831896590/870423378085961818/auto3.png')";
+          autoPos = 2;
+          bossHealth -= 1;
+        }
+      } else if (autoPos == 2) {
+        if (playerBossCollision()) {
+          skill1.style.backgroundImage = "url('https://cdn.discordapp.com/attachments/736393082831896590/870423375594545152/auto1.png')";
+          autoPos = 0;
+          bossHealth -= 3;
+        }
+      }
+    }
+    // skill2 skill2 
+    var skill2CD = false;
+    function skill2Func() {
+      if (autoPos != 0) {
+        autoPos = 0;
+        autoChain(true);
+      }
+      skillTimer(2);
+      skill2CD = true;
+      if (playerBossCollision()) bossHealth -= 6;
+      gcdAnimation(1, false);
+      setTimeout(function () {
+        skill2CD = false;
+        gcdAnimation(1, true);
+      }, 3000)
+    }
+    // skill3 skill3 skill3 
+    var skill3CD = false;
+    function skill3Func() {
+      if (autoPos != 0) {
+        autoPos = 0;
+        autoChain(true);
+      }
+      playerHealthVar += 25;
+      if (playerHealthVar > 100) {
+        playerHealthVar = 100;
+        playerHealthNumber.style.marginLeft = "auto";
+      }
+      playerHealthNumber.innerHTML = playerHealthVar.toString() + "%";
+      skill3CD = true;
+      skillTimer(3);
+      gcdAnimation(2, false);
+      setTimeout(function () { skill3CD = false; gcdAnimation(2, true) }, 8000)
+    }
+    // skill4 skill4 skill4 skill4 
+    var skill4CD = false;
+    function skill4Func() {
+      if (autoPos != 0) {
+        autoPos = 0;
+        autoChain(true);
+      }
+      skill4CD = true;
+      if (playerBossCollision()) bossHealth -= 6;
+      skillTimer(4);
+      gcdAnimation(3, false);
+      setTimeout(function () { skill4CD = false; gcdAnimation(3, true) }, 6000)
+    }
+
+    var weaponSwing = false;
+    // make into one func with if/else ?????????????????????????
+    function weaponFunc0() {
+      weaponSwing = true;
+    }
+    function weaponFunc1() {
+      weaponSwing = false;
+    }
+    function drawAttack() {
+      if (weaponSwing && !playerBossCollision()) {
+        ctx.fillStyle = "white";
+        ctx.fillRect(wepX, wepY, wepWidth, wepHeight)
+      } else if (weaponSwing && playerBossCollision()) {
+        ctx.fillStyle = "yellow";
+        ctx.fillRect(wepX, wepY, wepWidth, wepHeight)
+      }
+    }
+
+    // boss boss boss boss boss is called ball ?????????????????
+    function drawBall() {
+      ctx.beginPath();
+      ctx.arc(x, y, bossRadius, 0, Math.PI * 2);
+      // console.log(Math.floor(playerX), playerY);
+      if (playerBossCollision()) {
+        ctx.fillStyle = "red";
+      } else {
+        ctx.fillStyle = "blue";
+      }
+      ctx.strokeStyle = "red";
+      ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      ctx.closePath();
+    }
+    function drawPlayer() {
+      ctx.beginPath();
+      ctx.arc(playerX, playerY, playerRadius, 0, Math.PI * 2);
+      ctx.fillStyle = "white";
+      ctx.fill();
+      ctx.closePath();
+    }
+    var gameStart = false;
+    function drawArena() {
+      ctx.beginPath();
+      if (playerArenaCollision()) {
+        ctx.strokeStyle = "white";
+        if (gameStart == false) {
+          gameStart = true;
+          startFight();
+        }
+      }
+      ctx.arc(arenaX, arenaY, arenaRadius, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // COLLISION
+    function playerArenaCollision() {
+      let distanceX = playerX - 240;
+      let distanceY = playerY - 240;
+      let radiiSum = playerRadius + (arenaRadius - (playerRadius * 2));
+
+      if (distanceX * distanceX + distanceY * distanceY <= radiiSum * radiiSum) {
+        playerInside = true;
+        return true;
+      }
+      return false;
+    }
+    function bossArenaCollision() {
+      let distanceX = x - 240;
+      let distanceY = y - 240;
+      let radiiSum = bossRadius + (arenaRadius - (bossRadius * 2));
+
+      if (distanceX * distanceX + distanceY * distanceY <= radiiSum * radiiSum) {
+        return true;
+      }
+      return false;
+    }
+
+    // WEAPON
+    var wepX = null;
+    var wepY = null;
+    var wepWidth = null;
+    var wepHeight = null;
+    function drawWeapon() {
+      let wepUpDownX = playerX - 35;
+      let wepLeftX = wepUpDownX - 22;
+      let wepRightX = wepUpDownX + 52;
+      let wepSideY = playerY - 37;
+      let wepUpY = playerY - 55;
+      let wepDownY = playerY + 15;
+      let wepSideWidth = 40; let wepUpDownWidth = 70;
+      let wepSideHeight = 70; let wepUpDownHeight = 40;
+      if (wepUp) {
+        wepX = wepUpDownX;
+        wepY = wepUpY;
+        wepWidth = wepUpDownWidth;
+        wepHeight = wepUpDownHeight;
+      } else if (wepDown) {
+        wepX = wepUpDownX;
+        wepY = wepDownY;
+        wepWidth = wepUpDownWidth;
+        wepHeight = wepUpDownHeight;
+      } else if (wepLeft) {
+        wepX = wepLeftX;
+        wepY = wepSideY;
+        wepWidth = wepSideWidth;
+        wepHeight = wepSideHeight;
+      } else if (wepRight) {
+        wepX = wepRightX;
+        wepY = wepSideY;
+        wepWidth = wepSideWidth;
+        wepHeight = wepSideHeight;
+      }
+      ctx.strokeRect(wepX, wepY, wepWidth, wepHeight)
+    }
+
+    // MAIN DRAW FUNCTION
+    var playerInside = false;
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBall();
+      drawPlayer();
+      bossHealthFunc();
+      drawArena();
+      drawWeapon();
+      drawAttack();
+
+      if (x > canvas.width / 2 && !bossArenaCollision() || x + dx < bossRadius && !bossArenaCollision()) {
+        dx = -dx;
+      } if (y + dy < bossRadius && !bossArenaCollision() || y > canvas.height / 2 && !bossArenaCollision()) {
+        dy = -dy;
+      }
+
+      if (rightPressed) {
+        playerX += 3;
+        if (playerX + playerRadius > canvas.width || !playerArenaCollision() && playerInside) {
+          playerX -= 3;
+        }
+      }
+      if (leftPressed) {
+        playerX -= 3;
+        if (playerX < playerRadius || !playerArenaCollision() && playerInside) {
+          playerX += 3;
+        }
+      }
+      if (upPressed) {
+        playerY -= 3;
+        if (playerY <= playerRadius - 2 || !playerArenaCollision() && playerInside) {
+          playerY += 3;
+        }
+      }
+      if (downPressed) {
+        playerY += 3;
+        if (playerY + playerRadius > canvas.height || !playerArenaCollision() && playerInside) {
+          playerY -= 3;
+        }
+      }
+
+
+    }
+
+    function bossHealthFunc() {
+      hpBar.style.width = bossHealth.toString() + "%";
+    }
+
+    // START FIGHT START FIGHT START FIGHT
+    function startFight() {
+      let healthTick = setInterval(() => {
+        healthTickFun();
+      }, 5000)
+    }
+    function healthTickFun() {
+      if (playerHealthVar >= 5) {
+          playerHealthNumber.style.marginLeft = "1.5rem";
+          if (playerHealthVar < 10) {
+            playerHealthNumber.style.marginLeft = "2rem";
+          }
+          playerHealthVar -= 5;
+          playerHealthNumber.innerHTML = playerHealthVar.toString() + "%";
+        }
+    }
+
+
+    setInterval(draw, 10);
+
+
+  </script>
+
+
+</body>
+
+</html>
