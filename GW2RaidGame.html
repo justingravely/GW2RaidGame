@@ -58,14 +58,18 @@
       <li>- Make 1 cycle</li> -->
       <!-- <li>- Make 1 reset if use 2 or other</li>
       <li>- give 2 value and cooldown</li> -->
-      <li>- start game when enter with health ticker</li>
-      <li>- clean up code?</li>
+      <!-- <li>- start game when enter with health ticker</li>  -->
       <li>- add blue feet mechanic/green circle mechanic</li>
+      <li>- add dmg numbers</li>
+      <li>- add breakbar, make akesi cc skill</li>
+      <li>- make the blue circle move to different locations based on health % missing</li>
+      <li>- danger red orb boys</li>
 
     </ul>
   </div>
 
   <script>
+    // ?????????????????????????? = cleanup optimization possible
 
     var canvas = document.getElementById("myCanvas");
     var ctx = canvas.getContext("2d");
@@ -93,6 +97,7 @@
     var skill2 = document.getElementById("skill2");
     var playerHealth = document.getElementById("playerHealth");
     var playerHealthNumber = document.getElementById("playerHealthNumber");
+    var playerHealthVar = 100;
     var skill3 = document.getElementById("skill3");
     var skill4 = document.getElementById("skill4");
     var gcd = false;
@@ -189,11 +194,12 @@
       }
     }
 
-    
+
     // // skillbar skillbar skillbar skillbar skillbar
     // cd boxes
     var cDBox = document.getElementsByClassName("cDBox");
     var cDBoxNum = document.getElementsByClassName("cDBoxNum");
+    // This arr is kinda pointless, its spaghetti code time ??????????????????????????
     var cDBoxArr = [];
     for (let i = 0; i < cDBox.length; i++) {
       cDBox[i].style.opacity = "0";
@@ -227,16 +233,16 @@
         newNum = 6.0;
       }
       cDBoxNum[e - 1].innerHTML = newNum.toString();
-        let skillInt = setInterval(() => {
-          newNum -= .1;
-          cDBoxNum[e - 1].innerHTML = newNum.toFixed(1).toString();
-          if (newNum <= 0.0) {
-            clearInterval(skillInt);
-            cDBoxNum[e - 1].innerHTML = "";
-          }
-        }, 93)
+      let skillInt = setInterval(() => {
+        newNum -= .1;
+        cDBoxNum[e - 1].innerHTML = newNum.toFixed(1).toString();
+        if (newNum <= 0.0) {
+          clearInterval(skillInt);
+          cDBoxNum[e - 1].innerHTML = "";
+        }
+      }, 93)
     }
-    // skill1 
+    // skill1 SKILLS COULD BE OPTIMIZED INTO ONE FUNCTION ??????????????????????????
     var autoPos = 0;
     function autoChain(bool) {
       gcdAnimation(0, false);
@@ -276,8 +282,8 @@
       skill2CD = true;
       if (playerBossCollision()) bossHealth -= 6;
       gcdAnimation(1, false);
-      setTimeout(function () { 
-        skill2CD = false; 
+      setTimeout(function () {
+        skill2CD = false;
         gcdAnimation(1, true);
       }, 3000)
     }
@@ -288,6 +294,12 @@
         autoPos = 0;
         autoChain(true);
       }
+      playerHealthVar += 25;
+      if (playerHealthVar > 100) {
+        playerHealthVar = 100;
+        playerHealthNumber.style.marginLeft = "auto";
+      }
+      playerHealthNumber.innerHTML = playerHealthVar.toString() + "%";
       skill3CD = true;
       skillTimer(3);
       gcdAnimation(2, false);
@@ -308,6 +320,7 @@
     }
 
     var weaponSwing = false;
+    // make into one func with if/else ?????????????????????????
     function weaponFunc0() {
       weaponSwing = true;
     }
@@ -324,7 +337,7 @@
       }
     }
 
-    // boss
+    // boss boss boss boss boss is called ball ?????????????????
     function drawBall() {
       ctx.beginPath();
       ctx.arc(x, y, bossRadius, 0, Math.PI * 2);
@@ -350,8 +363,6 @@
     function drawArena() {
       ctx.beginPath();
       if (playerArenaCollision()) {
-        ctx.strokeStyle = "white";
-      } else {
         ctx.strokeStyle = "white";
       }
       ctx.arc(arenaX, arenaY, arenaRadius, 0, Math.PI * 2);
@@ -429,6 +440,9 @@
       drawArena();
       drawWeapon();
       drawAttack();
+      if (playerInside) {
+        startFight();
+      }
 
       if (x > canvas.width / 2 && !bossArenaCollision() || x + dx < bossRadius && !bossArenaCollision()) {
         dx = -dx;
@@ -467,6 +481,25 @@
     function bossHealthFunc() {
       hpBar.style.width = bossHealth.toString() + "%";
     }
+
+    // START FIGHT START FIGHT START FIGHT
+    function startFight() {
+      let healthTick = setInterval(() => {
+        if (playerHealthVar >= 5) {
+          playerHealthNumber.style.marginLeft = "1.5rem";
+          if (playerHealthVar < 10) {
+            playerHealthNumber.style.marginLeft = "2rem";
+          }
+          playerHealthVar -= 5;
+          playerHealthNumber.innerHTML = playerHealthVar.toString() + "%";
+        }
+      }, 5000);
+
+      // setTimeout(()=>{
+
+      // })
+    }
+
 
     setInterval(draw, 10);
 
