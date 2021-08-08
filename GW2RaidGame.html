@@ -360,10 +360,15 @@
       ctx.fill();
       ctx.closePath();
     }
+    var gameStart = false;
     function drawArena() {
       ctx.beginPath();
       if (playerArenaCollision()) {
         ctx.strokeStyle = "white";
+        if (gameStart == false) {
+          gameStart = true;
+          startFight();
+        }
       }
       ctx.arc(arenaX, arenaY, arenaRadius, 0, Math.PI * 2);
       ctx.stroke();
@@ -440,9 +445,6 @@
       drawArena();
       drawWeapon();
       drawAttack();
-      if (playerInside) {
-        startFight();
-      }
 
       if (x > canvas.width / 2 && !bossArenaCollision() || x + dx < bossRadius && !bossArenaCollision()) {
         dx = -dx;
@@ -485,7 +487,11 @@
     // START FIGHT START FIGHT START FIGHT
     function startFight() {
       let healthTick = setInterval(() => {
-        if (playerHealthVar >= 5) {
+        healthTickFun();
+      }, 5000)
+    }
+    function healthTickFun() {
+      if (playerHealthVar >= 5) {
           playerHealthNumber.style.marginLeft = "1.5rem";
           if (playerHealthVar < 10) {
             playerHealthNumber.style.marginLeft = "2rem";
@@ -493,11 +499,6 @@
           playerHealthVar -= 5;
           playerHealthNumber.innerHTML = playerHealthVar.toString() + "%";
         }
-      }, 5000);
-
-      // setTimeout(()=>{
-
-      // })
     }
 
 
