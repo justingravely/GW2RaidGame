@@ -16,6 +16,9 @@
     <div id="bossHP">
       <div id="bossHPInner"></div>
     </div>
+    <div id="breakBar">
+      <div id="breakBarInner"></div>
+    </div>
 
     <canvas id="myCanvas" width="480" height="480" style="border:1px solid lightgrey;">
       Your browser does not support the HTML5 canvas tag.
@@ -59,9 +62,10 @@
       <!-- <li>- Make 1 reset if use 2 or other</li>
       <li>- give 2 value and cooldown</li> -->
       <!-- <li>- start game when enter with health ticker</li>  -->
+      <!-- <li>- fix auto rotation bug</li> -->
+      <!-- <li>- add breakbar, make akesi cc skill</li> -->
       <li>- add blue feet mechanic/green circle mechanic</li>
       <li>- add dmg numbers</li>
-      <li>- add breakbar, make akesi cc skill</li>
       <li>- make the blue circle move to different locations based on health % missing</li>
       <li>- danger red orb boys</li>
 
@@ -92,6 +96,7 @@
     var wepRight = false;
     var wepDown = false;
     var wepLeft = false;
+    var gameStart = false;
 
     var skill1 = document.getElementById("skill1");
     var skill2 = document.getElementById("skill2");
@@ -102,10 +107,6 @@
     var skill4 = document.getElementById("skill4");
     var gcd = false;
 
-    // boss stuff
-    var bossHealth = 100;
-    var playerDMG = 1;
-    var hpBar = document.getElementById("bossHPInner");
     var arenaRadius = 235;
 
     function playerBossCollision() {
@@ -115,7 +116,6 @@
       if (distX > (wepWidth / 2 + bossRadius)) { return false; }
       if (distX > (wepHeight / 2 + bossRadius)) { return false; }
 
-      // if (distX <= wepWidth) { return true; }
       if (distY <= wepHeight) { return true; }
 
       var eX = distX - wepWidth / 2;
@@ -159,23 +159,24 @@
         wepLeft = true;
       }
 
-      if (e.key == "1" && gcd == false) {
-        weaponFunc0();
-        autoChain(false);
-        gcdFunction(1);
+      if (e.key == "1" && skill1CD == false) {
+        weaponSwingFun(true);
+        autoChain();
+        gcdFunction();
       }
       if (e.key == "2" && skill2CD == false) {
-        weaponFunc0();
-        skill2Func();
-        gcdFunction(2);
+        weaponSwingFun(true);
+        playerSkillsFun(1);
+        gcdFunction();
       }
       if (e.key == "3" && skill3CD == false) {
-        skill3Func();
-        gcdFunction(3);
+        playerSkillsFun(2);
+        gcdFunction();
       }
       if (e.key == "4" && skill4CD == false) {
-        skill4Func();
-        gcdFunction(4);
+        weaponSwingFun(true);
+        playerSkillsFun(3);
+        gcdFunction();
       }
     }
     function keyUpHandler(e) {
@@ -189,48 +190,50 @@
         downPressed = false;
       }
 
-      if (e.key == "1" || e.key == "2") {
-        weaponFunc1();
+      if (e.key == "1" || e.key == "2" || e.key == "4") {
+        weaponSwingFun(false);
       }
     }
 
 
     // // skillbar skillbar skillbar skillbar skillbar
-    // cd boxes
     var cDBox = document.getElementsByClassName("cDBox");
     var cDBoxNum = document.getElementsByClassName("cDBoxNum");
-    // This arr is kinda pointless, its spaghetti code time ??????????????????????????
-    var cDBoxArr = [];
+    var autoPos = 0;
+    var skill1CD = false;
+    var skill2CD = false;
+    var skill3CD = false;
+    var skill4CD = false;
+    var weaponSwing = false;
+    var rotationComplete = false;
+
     for (let i = 0; i < cDBox.length; i++) {
       cDBox[i].style.opacity = "0";
-      cDBoxArr.push([cDBox[i], cDBoxNum[i]]);
     }
     // gcd countdown animation
     function gcdAnimation(num, off) {
       if (off == false) {
-        for (let i = 0; i < cDBoxArr.length; i++) {
-          cDBoxArr[num][0].style.opacity = "0.5";
-        }
+        cDBox[num].style.opacity = "0.5";
       } if (off == true) {
-        for (let i = 0; i < cDBoxArr.length; i++) {
-          cDBoxArr[num][0].style.opacity = "0";
-        }
+        cDBox[num].style.opacity = "0";
       }
     }
     // gcd Function
-    function gcdFunction(e) {
+    function gcdFunction() {
       gcd = true;
       setTimeout(function () { gcd = false; }, 500);
     }
     // Skill function handler
     function skillTimer(e) {
       let newNum = 0;
-      if (e == 2) {
+      if (e == 1) {
+        newNum = 0.7;
+      } else if (e == 2) {
         newNum = 3.0;
       } else if (e == 3) {
         newNum = 8.0;
       } else if (e == 4) {
-        newNum = 6.0;
+        newNum = 2.0;
       }
       cDBoxNum[e - 1].innerHTML = newNum.toString();
       let skillInt = setInterval(() => {
@@ -242,90 +245,97 @@
         }
       }, 93)
     }
-    // skill1 SKILLS COULD BE OPTIMIZED INTO ONE FUNCTION ??????????????????????????
-    var autoPos = 0;
-    function autoChain(bool) {
+    // skills
+    function autoChain() {
       gcdAnimation(0, false);
-      setTimeout(function () { gcdAnimation(0, true); }, 500);
-      if (bool) {
-        skill1.style.backgroundImage = "url('https://cdn.discordapp.com/attachments/736393082831896590/870423375594545152/auto1.png')";
-        return;
-      }
+      setTimeout(function () { gcdAnimation(0, true); }, 750);
+      skillTimer(1);
       if (autoPos == 0) {
-        if (playerBossCollision()) {
+        if (playerBossCollision() && !breakPhase && skill1CD == false) {
           skill1.style.backgroundImage = "url('https://cdn.discordapp.com/attachments/736393082831896590/870423376613756948/auto2.png')";
           bossHealth -= 1;
           autoPos = 1;
+          skill1CD = true;
+          setTimeout(function () {
+            skill1CD = false;
+          }, 750)
         }
       } else if (autoPos == 1) {
-        if (playerBossCollision()) {
+        if (playerBossCollision() && !breakPhase && skill1CD == false) {
           skill1.style.backgroundImage = "url('https://cdn.discordapp.com/attachments/736393082831896590/870423378085961818/auto3.png')";
           autoPos = 2;
           bossHealth -= 1;
+          skill1CD = true;
+          setTimeout(function () {
+            skill1CD = false;
+          }, 750)
         }
       } else if (autoPos == 2) {
-        if (playerBossCollision()) {
+        if (playerBossCollision() && !breakPhase && skill1CD == false) {
           skill1.style.backgroundImage = "url('https://cdn.discordapp.com/attachments/736393082831896590/870423375594545152/auto1.png')";
           autoPos = 0;
-          bossHealth -= 3;
+          rotationComplete = true;
+          bossHealth -= 10;
+          skill1CD = true;
+          setTimeout(function () {
+            skill1CD = false;
+          }, 750)
         }
       }
     }
-    // skill2 skill2 
-    var skill2CD = false;
-    function skill2Func() {
-      if (autoPos != 0) {
-        autoPos = 0;
-        autoChain(true);
-      }
-      skillTimer(2);
-      skill2CD = true;
-      if (playerBossCollision()) bossHealth -= 6;
-      gcdAnimation(1, false);
-      setTimeout(function () {
-        skill2CD = false;
-        gcdAnimation(1, true);
-      }, 3000)
+    function autoReset() {
+      skill1.style.backgroundImage = "url('https://cdn.discordapp.com/attachments/736393082831896590/870423375594545152/auto1.png')";
     }
-    // skill3 skill3 skill3 
-    var skill3CD = false;
-    function skill3Func() {
-      if (autoPos != 0) {
-        autoPos = 0;
-        autoChain(true);
+    function playerSkillsFun(key) {
+      switch (key) {
+        case 1:
+          if (!rotationComplete) {
+            autoPos = 0;
+            autoReset();
+          }
+          skillTimer(2);
+          skill2CD = true;
+          if (playerBossCollision() && !breakPhase) bossHealth -= 33;
+          gcdAnimation(1, false);
+          setTimeout(function () {
+            skill2CD = false;
+            gcdAnimation(1, true);
+          }, 3000)
+          break;
+        case 2:
+          if (!rotationComplete) {
+            autoPos = 0;
+            autoReset();
+          }
+          playerHealthVar += 25;
+          if (playerHealthVar > 100) {
+            playerHealthVar = 100;
+            playerHealthNumber.style.marginLeft = "auto";
+          }
+          playerHealthNumber.innerHTML = playerHealthVar.toString() + "%";
+          skill3CD = true;
+          skillTimer(3);
+          gcdAnimation(2, false);
+          setTimeout(function () { skill3CD = false; gcdAnimation(2, true) }, 8000);
+          break;
+        case 3:
+          if (!rotationComplete) {
+            autoPos = 0;
+            autoReset();
+          }
+          skill4CD = true;
+          if (playerBossCollision() && breakPhase) {
+            breakHealth -= 50;
+          } else if (playerBossCollision() && !breakPhase) {
+            bossHealth -= 4;
+          }
+          skillTimer(4);
+          gcdAnimation(3, false);
+          setTimeout(function () { skill4CD = false; gcdAnimation(3, true) }, 2000)
       }
-      playerHealthVar += 25;
-      if (playerHealthVar > 100) {
-        playerHealthVar = 100;
-        playerHealthNumber.style.marginLeft = "auto";
-      }
-      playerHealthNumber.innerHTML = playerHealthVar.toString() + "%";
-      skill3CD = true;
-      skillTimer(3);
-      gcdAnimation(2, false);
-      setTimeout(function () { skill3CD = false; gcdAnimation(2, true) }, 8000)
     }
-    // skill4 skill4 skill4 skill4 
-    var skill4CD = false;
-    function skill4Func() {
-      if (autoPos != 0) {
-        autoPos = 0;
-        autoChain(true);
-      }
-      skill4CD = true;
-      if (playerBossCollision()) bossHealth -= 6;
-      skillTimer(4);
-      gcdAnimation(3, false);
-      setTimeout(function () { skill4CD = false; gcdAnimation(3, true) }, 6000)
-    }
-
-    var weaponSwing = false;
-    // make into one func with if/else ?????????????????????????
-    function weaponFunc0() {
-      weaponSwing = true;
-    }
-    function weaponFunc1() {
-      weaponSwing = false;
+    function weaponSwingFun(bool) {
+      bool ? weaponSwing = true : weaponSwing = false;
     }
     function drawAttack() {
       if (weaponSwing && !playerBossCollision()) {
@@ -337,11 +347,10 @@
       }
     }
 
-    // boss boss boss boss boss is called ball ?????????????????
-    function drawBall() {
+    // boss boss boss boss boss 
+    function drawBoss() {
       ctx.beginPath();
       ctx.arc(x, y, bossRadius, 0, Math.PI * 2);
-      // console.log(Math.floor(playerX), playerY);
       if (playerBossCollision()) {
         ctx.fillStyle = "red";
       } else {
@@ -360,7 +369,6 @@
       ctx.fill();
       ctx.closePath();
     }
-    var gameStart = false;
     function drawArena() {
       ctx.beginPath();
       if (playerArenaCollision()) {
@@ -439,19 +447,21 @@
     var playerInside = false;
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawBall();
+      drawBoss();
       drawPlayer();
       bossHealthFunc();
       drawArena();
       drawWeapon();
       drawAttack();
 
+      // boss arena collision that may not be needed ????????????
       if (x > canvas.width / 2 && !bossArenaCollision() || x + dx < bossRadius && !bossArenaCollision()) {
         dx = -dx;
       } if (y + dy < bossRadius && !bossArenaCollision() || y > canvas.height / 2 && !bossArenaCollision()) {
         dy = -dy;
       }
 
+      // player movement
       if (rightPressed) {
         playerX += 3;
         if (playerX + playerRadius > canvas.width || !playerArenaCollision() && playerInside) {
@@ -477,12 +487,41 @@
         }
       }
 
-
     }
+
+    // boss stuff
+    var bossHealth = 100;
+    var breakHealth = 100;
+    var playerDMG = 1;
+    var hpBar = document.getElementById("bossHPInner");
+    var breakPhase = false;
+    var breakBar = document.getElementById("breakBarInner");
+    var break1 = false;
+    var break2 = false;
 
     function bossHealthFunc() {
-      hpBar.style.width = bossHealth.toString() + "%";
-    }
+        hpBar.style.width = bossHealth.toString() + "%";
+        if (bossHealth < 67 && !break1 || bossHealth < 34 && !break2) {
+          breakPhase = true;
+          breakBar.style.backgroundColor = "aqua";
+        }
+        if (breakPhase) {
+          breakBar.style.width = breakHealth.toString() + "%";
+          if (breakHealth == 0) {
+            setTimeout(() => {breakBar.style.width = breakHealth.toString() + "%";}, 500)
+            breakBar.style.backgroundColor = "grey";
+            breakHealth = 100;
+            if (!break1) {
+              break1 = true;
+              breakPhase = false;
+            } else if (break1) {
+              break2 = true;
+              breakPhase = false;
+            }
+          }
+        }
+      } 
+
 
     // START FIGHT START FIGHT START FIGHT
     function startFight() {
@@ -492,13 +531,13 @@
     }
     function healthTickFun() {
       if (playerHealthVar >= 5) {
-          playerHealthNumber.style.marginLeft = "1.5rem";
-          if (playerHealthVar < 10) {
-            playerHealthNumber.style.marginLeft = "2rem";
-          }
-          playerHealthVar -= 5;
-          playerHealthNumber.innerHTML = playerHealthVar.toString() + "%";
+        playerHealthNumber.style.marginLeft = "1.5rem";
+        if (playerHealthVar < 10) {
+          playerHealthNumber.style.marginLeft = "2rem";
         }
+        playerHealthVar -= 5;
+        playerHealthNumber.innerHTML = playerHealthVar.toString() + "%";
+      }
     }
 
 
