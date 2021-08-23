@@ -26,6 +26,13 @@ canvas {
   cursor: crosshair;
 }
 
+/* images */
+.images {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+}
+
 #bossHP {
   width: 20rem;
   height: 1.5rem;
@@ -122,10 +129,14 @@ canvas {
   width: 5.5rem;
   height: 5.5rem;
   border: 2px solid black;
-  background: rgb(2,0,36);
-  background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(255,0,0,1) 100%, rgba(255,0,0,1) 100%); 
+  background-color: black;
+  background-image: url("https://cdn.discordapp.com/attachments/736393082831896590/878951175821602866/healthbg.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
   border-radius: 50%;
   display: flex;
+  transform: rotate(180deg);
+  color: rgb(0, 255, 255);
 }
   #playerHealthNumber {
     margin: auto;
@@ -133,4 +144,15 @@ canvas {
     color: white;
     font-size: 1.2rem;
     font-weight: bold;
+    transform: rotate(180deg);
+  }
+
+  #pressF5lol {
+    display: none;
+    height: 480;
+    width: 480;
+    border: 1px solid red;
+    margin: auto;
+    font-size: 3rem;
+    background-color: white;
   }
