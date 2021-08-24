@@ -13,6 +13,33 @@
 <body>
 
   <div class="wrapper">
+    <!-- guide -->
+    <div class="titleSection" id="titleSection">
+      <img src="images/player.png">
+      <h1>Game Guide</h1>
+      <img src="images/player2.png">
+    </div>
+    <div class="guide" id="guide">
+      <div class="innerGuide" id="innerGuide">
+        <p><span style="color: limegreen">Green</span> heals if stood in, damages if not</p>
+        <p><span style="color: red">Red</span> is bad</p>
+        <p><span style="color: cyan">Blue</span> circles damage and teleport you away</p>
+        <br>
+        <p>At 66% & 33% boss needs to have it's bar broken with skill 4 or it will no longer take damage</p>
+        <br>
+        <p>Boss enrages at like 20 seconds and gets very angry</p>
+        <br>
+        <p>Skill 1: auto chain</p>
+        <p>Skill 2: strong attack</p>
+        <p>Skill 3: heal</p>
+        <p>Skill 4: cc/slight damage</p>
+        <p>Any other skill will interrupt the autochain like ingame (usually)</p>
+        <br>
+        <p>WASD movement</p>
+        <p>Mouse aim(?) you can just leave it in the center for now</p>
+      </div>
+    </div>
+
     <div id="bossHP">
       <div id="bossHPInner"></div>
     </div>
@@ -59,10 +86,10 @@
       </div>
     </div>
 
+
   </div>
 
-  <div id="notePad">
-    <ul>
+    <!-- <ul> -->
       <!-- <li>- start player out, lock in</li>
       <li>- player looking at cursor</li>
       <li>- melee weapon following</li> -->
@@ -76,14 +103,35 @@
       <!-- <li>- fix auto rotation bug</li> -->
       <!-- <li>- add breakbar, make akesi cc skill</li> -->
       <!-- <li>- add dmg numbers</li> -->
-      <li>- add blue feet mechanic/green circle mechanic</li>
+      <!-- <li>- add blue feet mechanic/green circle mechanic</li>
       <li>- make the blue circle move to different locations based on health % missing</li>
-      <li>- danger red orb boys</li>
+      <li>- danger red orb boys</li> -->
 
-    </ul>
-  </div>
+    <!-- </ul> -->
+  <!-- </div> -->
 
   <script>
+    var guide = document.getElementById("guide");
+    var titleSection = document.getElementById("titleSection");
+    var innerGuide = document.getElementById("innerGuide");
+    titleSection.addEventListener("mouseenter", () => {guideFun(true)});
+    titleSection.addEventListener("mouseleave", () => {guideFun(false)});
+
+    function guideFun(bool){
+      console.log("hi")
+      if (bool == true) {
+        guide.style.backgroundColor = "rgba(0, 0, 0, 1)";
+        innerGuide.style.display = "block";
+        canvas.style.zIndex = "-1";
+        guide.style.zIndex = "1";
+      } else if (bool == false) {
+        guide.style.backgroundColor = "rgba(0, 0, 0, 0)";
+        innerGuide.style.display = "none";
+        canvas.style.zIndex = "1";
+        guide.style.zIndex = "-1";
+      }
+    }
+  
     var pressF5lol = document.getElementById("pressF5lol");
 
     var canvas = document.getElementById("myCanvas");
@@ -337,8 +385,8 @@
           if (playerBossCollision() && breakPhase) {
             breakHealth -= 50;
           } else if (playerBossCollision() && !breakPhase) {
-            bossHealth -= 5;
-            playerDMG = 500;
+            bossHealth -= 2;
+            playerDMG = 200;
           }
           skillTimer(4);
           gcdAnimation(3, false);
@@ -586,6 +634,10 @@
       if (playerHealthVar <= 0) {
         canvas.style.display = "none";
         pressF5lol.style.display = "flex";
+        playerHealthVar = 0;
+      }
+      if (playerHealthVar >= 100) {
+        playerHealthVar = 100;
       }
     }
 
@@ -760,7 +812,7 @@
       if (playerHealthVar >= 5) {
         playerHealthNumber.style.marginLeft = "1rem";
         if (playerHealthVar < 10) {
-          playerHealthNumber.style.marginLeft = "1.5rem";
+          playerHealthNumber.style.marginLeft = "4rem";
         }
         if (matchTime < 30) {
           playerHealthVar -= 5;
@@ -827,6 +879,7 @@
             console.log("no greeeeen")
             greenSwitch = false;
           } else if (greenCollision()) {
+            playerHealthVar += 15;
             greenSwitch = false;
             console.log("GREEEEEEN")
           }
