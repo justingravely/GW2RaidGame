@@ -113,6 +113,8 @@
   <!-- </div> -->
 
   <script>
+// PROJECT: remake with objects
+
     var guide = document.getElementById("guide");
     var titleSection = document.getElementById("titleSection");
     var innerGuide = document.getElementById("innerGuide");
@@ -294,7 +296,7 @@
       } else if (e == 2) {
         newNum = 3.0;
       } else if (e == 3) {
-        newNum = 8.0;
+        newNum = 9.9;
       } else if (e == 4) {
         newNum = 2.0;
       }
@@ -371,7 +373,7 @@
           break;
         case 2:
           if (rotationComplete != true) autoReset();
-          playerHealthVar += 25;
+          playerHealthVar += 35;
           if (playerHealthVar > 100) {
             playerHealthVar = 100;
             playerHealthNumber.style.marginLeft = "auto";
@@ -682,7 +684,7 @@
         redTouch = true;
         console.log("red pain")
         if (redTouch) {
-          playerHealthVar -= 5;
+          playerHealthVar -= 15;
           setTimeout(() => {
             redTouch = false;
           }, 500)
@@ -817,9 +819,9 @@
           playerHealthNumber.style.marginLeft = "4rem";
         }
         if (matchTime < 30) {
-          playerHealthVar -= 5;
+          playerHealthVar -= 15;
         } else {
-          playerHealthVar -= 20;
+          playerHealthVar -= 25;
         }
       }
     }
@@ -849,7 +851,7 @@
         setTimeout(() => {
           if (playerBlueCollision() === true) {
             console.log("hi")
-            playerHealthVar -= 30;
+            playerHealthVar -= 50;
             switch (bluePos) {
               case 3:
                 playerX -= 120;
@@ -877,11 +879,11 @@
         greenColors = [50, 205, 50];
         setTimeout(() => {
           if (!greenCollision()) {
-            playerHealthVar -= 30;
+            playerHealthVar -= 60;
             console.log("no greeeeen")
             greenSwitch = false;
           } else if (greenCollision()) {
-            playerHealthVar += 15;
+            playerHealthVar += 20;
             greenSwitch = false;
             console.log("GREEEEEEN")
           }
